@@ -12,7 +12,7 @@
   {% for list in lists %}
       <div class="card-list">
         <div class="img-list">
-          <img src="{{ asset('uploads/lists/' ~ list.imageName) }}" />
+          <img width="300px" src="{{ asset('uploads/lists/' ~ list.imageName) }}" />
         </div>
         <p>
           {{ list.id }} - <span>{{ list.name }}</span>

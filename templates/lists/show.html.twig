@@ -1,24 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Lists{% endblock %}
+{% block title %}
+  Lists
+{% endblock %}
 
 {% block body %}
-    <h1>Lists</h1>
+  <h1>Lists</h1>
+   
+  <div class="card-lists">
+    <div class="card-list">
+      <div class="img-list">
+        <img width="300px" src="{{ asset('uploads/lists/' ~ list.imageName) }}" />
+      </div>
+      <p>
+        {{ list.id }} - <span>{{ list.name }}</span>
+      </p>
+      
+      {% for task in list.tasks %}
+        <p>{{ task.name }}</p>
+        <p>{{ task.description }}</p>
+        <a class="btn btn-success" href="{{ path('app_tasks_edit', { id: task.id }) }}">edit</a>
+        {{ include('tasks/_delete_form.html.twig') }}
+    {% endfor %}
+    <a class="btn btn-primary" href="{{ path('app_lists_index') }}">back to list</a>
 
-    <div class="card-lists">
-        <div class="card-list">
-            <div class="img-list"><img src="{{ asset('uploads/lists/'~ list.imageName) }}"></div>
-            <p>{{ list.id }} - <span>{{ list.name }}</span></p>
-            {% for task in list.tasks %}
-                    <p>{{ task.name }}</p>
-                    <p>{{ task.description }}</p>
-                        <a href="{{ path('app_lists_show', {'id': task.id}) }}">show</a>
-                        <a href="{{ path('app_lists_show', {'id': task.id}) }}">edit</a>
-            {% endfor %}
-        <a href="{{ path('app_tasks_new') }}">Create new</a>
-        </div>
+      <a class="btn btn-info" href="{{ path('app_tasks_new', { id: list.id }) }}">Create new</a>
     </div>
-    <a href="{{ path('app_lists_index') }}">back to list</a>
+  </div>
 
-    {{ include('lists/_delete_form.html.twig') }}
+
+  {{ include('lists/_delete_form.html.twig') }}
 {% endblock %}
