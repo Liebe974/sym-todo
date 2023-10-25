@@ -26,7 +26,7 @@ class TasksController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/new', name: 'app_tasks_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'app_tasks_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
@@ -39,7 +39,7 @@ class TasksController extends AbstractController
                 $entityManager->persist($task);
                 $entityManager->flush();
     
-                return $this->redirectToRoute('app_lists_show', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_lists_index', [], Response::HTTP_SEE_OTHER);
             }
     
             return $this->render('tasks/new.html.twig', [
