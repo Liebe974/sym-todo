@@ -46,7 +46,7 @@ class TasksController extends AbstractController
                 'form' => $form,
             ]);
         }
-    }
+     }
 
     #[Route('/{id}', name: 'app_tasks_show', methods: ['GET'])]
     public function show(Tasks $task): Response

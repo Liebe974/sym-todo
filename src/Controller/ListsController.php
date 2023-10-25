@@ -30,10 +30,7 @@ class ListsController extends AbstractController
             ]);
         }
 
-        return $this->render('lists/index.html.twig', [
-            'lists' => $listsRepository->findAll(),
 
-        ]);
     }
 
     #[Route('/new', name: 'app_lists_new', methods: ['GET', 'POST'])]
