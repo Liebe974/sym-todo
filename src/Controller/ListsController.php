@@ -60,28 +60,29 @@ class ListsController extends AbstractController
 
     #[Route('/{id}', name: 'app_lists_show', methods: ['GET', 'POST'])]
 
-    public function show(Lists $lists, Request $request, EntityManagerInterface $entityManager): Response
-{
-    $task = new Tasks(); // Create a new tasks entity.
-    $form = $this->createForm(TasksType::class, $task);
-
-    $form->handleRequest($request);
-
-    if ($form->isSubmitted() && $form->isValid()) {
-        $task->setLists($lists);
-
-        $entityManager->persist($task);
-        $entityManager->flush();
-
-        // Optionally, you can redirect the user to a different page after creating the tasks.
-        return $this->redirectToRoute('app_lists_show', ['id' => $lists->getId()]);
-    }
-
-    return $this->render('lists/show.html.twig', [
-        'list' => $lists,
-        'form' => $form->createView(),
-    ]);
-}
+    public function show($id, Lists $list, Request $request, EntityManagerInterface $entityManager, ListsRepository $listsRepository): Response
+    {
+            $task = new Tasks();
+            $form = $this->createForm(TasksType::class, $task);
+    
+            $form->handleRequest($request);
+            $user = $this->getUser();
+    
+            if ($user && $form->isSubmitted() && $form->isValid()) {
+    
+                $task->setLists($listsRepository->find($id));
+    
+                $entityManager->persist($task);
+                $entityManager->flush();
+    
+                return $this->redirectToRoute('app_lists_show', ['id' => $list->getId()]);
+            }
+    
+            return $this->render('lists/show.html.twig', [
+                'list' => $list,
+                'form' => $form->createView(),
+            ]);
+        }
 
     #[Route('/{id}/edit', name: 'app_lists_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Lists $list, EntityManagerInterface $entityManager): Response

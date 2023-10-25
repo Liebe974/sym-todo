@@ -14,7 +14,6 @@ class TasksType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('lists')
         ;
     }
 
