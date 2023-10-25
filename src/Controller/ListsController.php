@@ -104,16 +104,11 @@ class ListsController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_lists_delete', methods: ['GET', 'POST'])]
-    public function delete(Request $request, Lists $list, EntityManagerInterface $entityManager, Tasks $task): Response
+    #[Route('/{id}', name: 'app_lists_delete', methods: ['POST'])]
+    public function delete(Request $request, Lists $list, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $list->getId(), $request->request->get('_token'))) {
             $entityManager->remove($list);
-            $entityManager->flush();
-        }
-
-        if ($this->isCsrfTokenValid('delete' . $task->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($task);
             $entityManager->flush();
         }
 
