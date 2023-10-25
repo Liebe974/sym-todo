@@ -65,7 +65,7 @@ class TasksController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_lists_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_lists_show', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('tasks/edit.html.twig', [
