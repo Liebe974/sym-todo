@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Lists;
+use App\Entity\Tasks;
 use App\Form\ListsType;
+use App\Form\TasksType;
 use App\Repository\ListsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -56,13 +58,30 @@ class ListsController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_lists_show', methods: ['GET'])]
-    public function show(Lists $list): Response
-    {
-        return $this->render('lists/show.html.twig', [
-            'list' => $list,
-        ]);
+    #[Route('/{id}', name: 'app_lists_show', methods: ['GET', 'POST'])]
+
+    public function show(Lists $lists, Request $request, EntityManagerInterface $entityManager): Response
+{
+    $task = new Tasks(); // Create a new tasks entity.
+    $form = $this->createForm(TasksType::class, $task);
+
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        $task->setLists($lists);
+
+        $entityManager->persist($task);
+        $entityManager->flush();
+
+        // Optionally, you can redirect the user to a different page after creating the tasks.
+        return $this->redirectToRoute('app_lists_show', ['id' => $lists->getId()]);
     }
+
+    return $this->render('lists/show.html.twig', [
+        'list' => $lists,
+        'form' => $form->createView(),
+    ]);
+}
 
     #[Route('/{id}/edit', name: 'app_lists_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Lists $list, EntityManagerInterface $entityManager): Response
