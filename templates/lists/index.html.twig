@@ -19,7 +19,7 @@
         </p>
         <div class="btns">
           <a class="btn btn-primary" href="{{ path('app_lists_show', { id: list.id }) }}">show</a>
-          <a class="btn btn-primary" href="{{ path('app_lists_edit', { id: list.id }) }}">edit</a>
+          <a class="btn btn-success" href="{{ path('app_lists_edit', { id: list.id }) }}">edit</a>
         </div>
       </div>
     {% else %}
@@ -28,5 +28,5 @@
 
   </div>
 
-  <a href="{{ path('app_lists_new') }}">Create new</a>
+  <a class="btn btn-info" href="{{ path('app_lists_new') }}">Create new</a>
 {% endblock %}
