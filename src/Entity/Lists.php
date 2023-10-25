@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: ListsRepository::class)]
+
 #[Vich\Uploadable]
 class Lists
 {
@@ -34,10 +35,17 @@ class Lists
     #[ORM\Column(nullable: true)]
     private ?string $imageName = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
+
 
     public function setImageFile(?File $imageFile = null): void
     {
-        $this->imageFile = $imageFile;
+        $this->imageFile = $imageFile; 
+        if (null !== $imageFile) {
+
+            $this->updatedAt = new \DateTimeImmutable();
+        }
     }
 
     public function getImageFile(): ?File
