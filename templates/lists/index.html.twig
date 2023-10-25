@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Lists index
+{% endblock %}
+
+{% block body %}
+  <h1>Lists index</h1>
+
+  <div class="card-lists mb-3 df">
+
+  {% for list in lists %}
+      <div class="card-list">
+        <div class="img-list">
+          <img src="{{ asset('uploads/lists/' ~ list.imageName) }}" />
+        </div>
+        <p>
+          {{ list.id }} - <span>{{ list.name }}</span>
+        </p>
+        <div class="btns">
+          <a class="btn btn-primary" href="{{ path('app_lists_show', { id: list.id }) }}">show</a>
+          <a class="btn btn-primary" href="{{ path('app_lists_edit', { id: list.id }) }}">edit</a>
+        </div>
+      </div>
+    {% else %}
+        <p colspan="3">no records found</p>
+    {% endfor %}
+
+  </div>
+
+  <a href="{{ path('app_lists_new') }}">Create new</a>
+{% endblock %}
