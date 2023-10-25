@@ -6,28 +6,34 @@
 
 {% block body %}
   <h1>Lists</h1>
-   
+
   <div class="card-lists">
     <div class="card-list">
+      <p>
+        {{ list.id }} - <span>{{ list.name }}</span>
+      </p>
       <div class="img-list">
         <img width="300px" src="{{ asset('uploads/lists/' ~ list.imageName) }}" />
       </div>
       {{ include('tasks/_form.html.twig') }}
-      <p>
-        {{ list.id }} - <span>{{ list.name }}</span>
-      </p>
-      
-      {% for task in list.tasks %}
-        <p>{{ task.name }}</p>
-        <p>{{ task.description }}</p>
-        <a class="btn btn-success" href="{{ path('app_tasks_edit', { id: task.id }) }}">edit</a>
-        {{ include('tasks/_delete_form.html.twig') }}
-    {% endfor %}
-    <a class="btn btn-primary" href="{{ path('app_lists_index') }}">back to list</a>
 
-      <a class="btn btn-info" href="{{ path('app_tasks_new', { id: list.id }) }}">Create new</a>
+      <div class="container text-center">
+        <div class="row justify-content-between">
+          <div class="col-6 col-sm-4">
+      {% for task in list.tasks %}
+        <div class="btn">
+              <p>{{ task.name }}</p> <p> - </p> <p>{{ task.description }}</p>
+              
+                <a class="btn btn-success" href="{{ path('app_tasks_edit', { id: task.id }) }}">edit</a>
+                {{ include('tasks/_delete_form.html.twig') }}
+              </div>
+            {% endfor %}
+            </div>
+          </div>
+        </div>
+      <div class="btn">
+        <a class="btn btn-primary" href="{{ path('app_lists_index') }}">back to list</a>
+      </div>
     </div>
   </div>
-
- 
 {% endblock %}
