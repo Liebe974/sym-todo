@@ -17,6 +17,13 @@ class ListsController extends AbstractController
     #[Route('/', name: 'app_lists_index', methods: ['GET'])]
     public function index(ListsRepository $listsRepository): Response
     {
+        $user = $this->getUser();
+        if ($user) {
+            $lists = $listsRepository->findBy(['user' => $user]);
+            return $this->render('lists/index.html.twig', [
+                'lists' => $lists
+            ]);
+        }
 
         return $this->render('lists/index.html.twig', [
             'lists' => $listsRepository->findAll(),
