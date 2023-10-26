@@ -26,7 +26,7 @@ class Lists
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\OneToMany(mappedBy: 'lists', targetEntity: Tasks::class)]
+    #[ORM\OneToMany(mappedBy: 'lists', targetEntity: Tasks::class, orphanRemoval:true)]
     private Collection $tasks;
 
     #[Vich\UploadableField(mapping: 'lists', fileNameProperty: 'imageName')]
